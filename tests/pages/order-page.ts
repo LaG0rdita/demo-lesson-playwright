@@ -18,6 +18,5 @@ export class OrderPage {
     this.commentInput = page.getByTestId('comment-input')
     this.createOrderButton = page.getByTestId('createOrder-button')
     this.successMessage = page.getByTestId('orderSuccessfullyCreated-popup')
-
   }
 }

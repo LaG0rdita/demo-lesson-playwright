@@ -40,5 +40,4 @@ test('login and create order', async ({}) => {
   await orderCreationPage.createOrderButton.click()
   //now verify success message
   await expect(orderCreationPage.successMessage).toBeVisible()
-
 })

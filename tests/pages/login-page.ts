@@ -21,7 +21,7 @@ export class LoginPage {
   }
 
   async open() {
-    await this.page.goto(this.url, {waitUntil: 'domcontentloaded'})
+    await this.page.goto(this.url, { waitUntil: 'domcontentloaded' })
   }
 
   async signIn(username: string, password: string) {
