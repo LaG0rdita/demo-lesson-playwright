@@ -20,7 +20,7 @@ test('error message displayed when incorrect credentials used (username-input-er
   // implement test
 })
 
-test.skip('login with correct credentials and verify order creation page', async ({}) => {
+test('login with correct credentials and verify order creation page', async ({}) => {
   // verify at least few elements on the order creation page
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await expect(orderCreationPage.statusButton).toBeVisible()
@@ -30,7 +30,7 @@ test.skip('login with correct credentials and verify order creation page', async
   await expect(orderCreationPage.createOrderButton).toBeVisible()
 })
 
-test.skip('login and create order', async ({}) => {
+test('login and create order', async ({}) => {
   // implement test
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   //let's create an order

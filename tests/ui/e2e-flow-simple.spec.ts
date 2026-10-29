@@ -11,7 +11,7 @@ test('signIn button disabled when password less than 8 characters', async ({ pag
   await expect(loginPage.signInButton).toBeDisabled()
 })
 
-test.skip('login with correct credentials and verify order creation page', async ({ page }) => {
+test('login with correct credentials and verify order creation page', async ({ page }) => {
   const loginPage = new LoginPage(page)
   await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
