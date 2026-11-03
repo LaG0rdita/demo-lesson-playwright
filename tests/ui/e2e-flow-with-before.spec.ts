@@ -58,6 +58,7 @@ test('logout from order page', async ({}) => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   //logout
   await orderCreationPage.logoutButton.click()
+
   //checks
   await expect(loginPage.signInButton).toBeVisible()
   await expect(orderCreationPage.logoutButton).toBeHidden()

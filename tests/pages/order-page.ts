@@ -18,7 +18,6 @@ export class OrderPage {
   readonly orderNameDetails: Locator
   readonly orderStatusOpen: Locator
 
-
   constructor(page: Page) {
     this.page = page
     this.statusButton = page.getByTestId('openStatusPopup-button')
