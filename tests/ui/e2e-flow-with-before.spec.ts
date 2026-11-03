@@ -41,3 +41,57 @@ test('login and create order', async ({}) => {
   //now verify success message
   await expect(orderCreationPage.successMessage).toBeVisible()
 })
+
+test('check errors on order creation', async ({}) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //let's create an order
+  await orderCreationPage.usernameInput.fill('a')
+  await orderCreationPage.phoneInput.fill('00000')
+  await orderCreationPage.commentInput.fill('nearby')
+  //checks
+  await expect(orderCreationPage.createOrderButton).toBeDisabled()
+  //now verify error message
+  await expect(orderCreationPage.customerNameError).toBeVisible()
+  await expect(orderCreationPage.phoneError).toBeVisible()
+})
+
+test('logout from order page', async ({}) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //logout
+  await orderCreationPage.logoutButton.click()
+
+  //checks
+  await expect(loginPage.signInButton).toBeVisible()
+  await expect(orderCreationPage.logoutButton).toBeHidden()
+  //URL
+  //await expect(loginPage.url).toContain('signin')
+  console.log(loginPage.page.url())
+  //expect(loginPage.page.url()).toContain('signin')
+})
+
+test('order not found page', async ({}) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //search for order
+  await orderCreationPage.statusButton.click()
+  //fill order number
+  await orderCreationPage.searchOrderInput.fill('20000')
+  await orderCreationPage.searchOrderButton.click()
+
+  //checks
+  await expect(orderCreationPage.orderNotFoundText).toBeVisible()
+  await expect(orderCreationPage.orderNotFoundImage).toBeVisible()
+})
+
+//tracking number 20613
+test('order found page', async ({}) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //search for order
+  await orderCreationPage.statusButton.click()
+  //fill order number
+  await orderCreationPage.searchOrderInput.fill('20613')
+  await orderCreationPage.searchOrderButton.click()
+
+  //checks
+  await expect(orderCreationPage.orderStatusOpen).toBeVisible()
+  await expect(orderCreationPage.orderNameDetails).toBeVisible()
+})
