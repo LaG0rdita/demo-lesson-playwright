@@ -31,6 +31,7 @@ test('login with correct credentials and verify order creation page', async ({})
 })
 
 test('login and create order', async ({}) => {
+  // implement test
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   //let's create an order
   await orderCreationPage.usernameInput.fill('random-user')

@@ -17,7 +17,7 @@ export class OrderPage {
   readonly orderNotFoundImage: Locator
   readonly orderNameDetails: Locator
   readonly orderStatusOpen: Locator
-
+  //add more locators
   constructor(page: Page) {
     this.page = page
     this.statusButton = page.getByTestId('openStatusPopup-button')
