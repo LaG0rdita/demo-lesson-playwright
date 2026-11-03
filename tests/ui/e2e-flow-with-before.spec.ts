@@ -31,7 +31,6 @@ test('login with correct credentials and verify order creation page', async ({})
 })
 
 test('login and create order', async ({}) => {
-  // implement test
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   //let's create an order
   await orderCreationPage.usernameInput.fill('random-user')
@@ -59,7 +58,6 @@ test('logout from order page', async ({}) => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   //logout
   await orderCreationPage.logoutButton.click()
-
   //checks
   await expect(loginPage.signInButton).toBeVisible()
   await expect(orderCreationPage.logoutButton).toBeHidden()
