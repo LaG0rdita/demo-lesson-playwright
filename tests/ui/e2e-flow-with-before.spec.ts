@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/login-page'
 import { faker } from '@faker-js/faker/locale/en'
 import { PASSWORD, USERNAME } from '../../config/env-data'
+import {
+  existingOrderMock,
+  nonexistingOrderMock,
+  orderCreationOrderMock,
+  serverErrorOrderMock,
+} from '../mock/order-mocks'
 
 let loginPage: LoginPage
 
@@ -71,10 +77,12 @@ test('logout from order page', async ({}) => {
 
 test('order not found page', async ({}) => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //init mock
+  await nonexistingOrderMock(orderCreationPage.page)
   //search for order
   await orderCreationPage.statusButton.click()
   //fill order number
-  await orderCreationPage.searchOrderInput.fill('20000')
+  await orderCreationPage.searchOrderInput.fill('0')
   await orderCreationPage.searchOrderButton.click()
 
   //checks
@@ -85,13 +93,38 @@ test('order not found page', async ({}) => {
 //tracking number 20613
 test('order found page', async ({}) => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //NB! init mock before flow started
+  await existingOrderMock(orderCreationPage.page)
   //search for order
   await orderCreationPage.statusButton.click()
   //fill order number
-  await orderCreationPage.searchOrderInput.fill('20613')
+  await orderCreationPage.searchOrderInput.fill('0')
   await orderCreationPage.searchOrderButton.click()
 
   //checks
   await expect(orderCreationPage.orderStatusOpen).toBeVisible()
   await expect(orderCreationPage.orderNameDetails).toBeVisible()
+})
+
+test('order search -> error on server side', async ({}) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  //NB! init mock before flow started
+  await serverErrorOrderMock(orderCreationPage.page)
+  //search for order
+  await orderCreationPage.statusButton.click()
+  //fill order number
+  await orderCreationPage.searchOrderInput.fill('0')
+  await orderCreationPage.searchOrderButton.click()
+})
+
+test('order creation - mock', async ({}) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
+  await orderCreationOrderMock(orderCreationPage.page)
+  //let's create an order
+  await orderCreationPage.usernameInput.fill('Anna')
+  await orderCreationPage.phoneInput.fill('12345678')
+  await orderCreationPage.commentInput.fill('3rd')
+  await orderCreationPage.createOrderButton.click()
+  //now verify error message
+  await expect(orderCreationPage.successMessage).toBeVisible()
 })
